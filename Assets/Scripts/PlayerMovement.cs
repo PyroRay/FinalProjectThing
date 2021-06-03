@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
+    public Transform playerCamera;
 
     public float speed = 12f;
     public float sprintSpeed = 16f;
@@ -13,7 +14,12 @@ public class PlayerMovement : MonoBehaviour
     public float wallJumpHeight = 1.5f;
     public float doubleJumpHeight = 3f;
     public float wallJumpSpeed = 1f;
+    public float wallJumpOffSpeed = 1f;
     public float airControlMultiplier = 0.5f;
+
+    public float wallOffTime = 0f;
+    public float wallOffOffset = 11f;
+    public float wallCameraTilt = 20f;
 
     public Transform groundCheck;
     public Transform wallrunCheckLeft;
@@ -37,10 +43,15 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        isWallrunableLeft = Physics.CheckSphere(wallrunCheckLeft.position, wallrunDistance, wallrunMask);
-        isWallrunableRight = Physics.CheckSphere(wallrunCheckRight.position, wallrunDistance, wallrunMask);
-        isWallrunableFront = Physics.CheckSphere(wallrunCheckFront.position, wallrunDistance, wallrunMask);
-        isWallrunableBack = Physics.CheckSphere(wallrunCheckBack.position, wallrunDistance, wallrunMask);
+
+        if (Time.time >= wallOffTime)
+        {
+            isWallrunableLeft = Physics.CheckSphere(wallrunCheckLeft.position, wallrunDistance, wallrunMask);
+            isWallrunableRight = Physics.CheckSphere(wallrunCheckRight.position, wallrunDistance, wallrunMask);
+            isWallrunableFront = Physics.CheckSphere(wallrunCheckFront.position, wallrunDistance, wallrunMask);
+            isWallrunableBack = Physics.CheckSphere(wallrunCheckBack.position, wallrunDistance, wallrunMask);
+        }
+
 
         if (isGrounded && velocity.y < 0)
         {
@@ -106,12 +117,18 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Jumping off Wallrun LEFT");
                 velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
                 velocity += transform.forward * wallJumpSpeed;
+                velocity += transform.right * wallJumpOffSpeed;
+                wallOffTime = Time.time + wallOffOffset;
+                isWallrunableLeft = false;
             }
             else if (isWallrunableRight)
             {
                 Debug.Log("Jumping off Wallrun RIGHT");
                 velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
                 velocity += transform.forward * wallJumpSpeed;
+                velocity += transform.right * -wallJumpOffSpeed;
+                wallOffTime = Time.time + wallOffOffset;
+                isWallrunableRight = false;
             }
             else if (isWallrunableFront)
             {
