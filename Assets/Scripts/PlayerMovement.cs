@@ -136,15 +136,19 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log("Jumping off Wallrun FRONT");
                 velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
-                velocity += transform.forward * wallJumpSpeed;
+                velocity += transform.forward * -wallJumpOffSpeed;
+                wallOffTime = Time.time + wallOffOffset;
+                isWallrunableFront = false;
             }
             else if (isWallrunableBack)
             {
                 Debug.Log("Jumping off Wallrun BACK");
                 velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
-                velocity += transform.forward * wallJumpSpeed;
+                velocity += transform.forward * wallJumpOffSpeed;
+                wallOffTime = Time.time + wallOffOffset;
+                isWallrunableBack = false;
             }
-            else if (hasDoubleJump && !isGrounded && velocity.y <= 3)
+            else if (hasDoubleJump && !(isGrounded || isWallrunableLeft || isWallrunableRight || isWallrunableFront || isWallrunableBack))
             {
                 velocity.y = Mathf.Sqrt(doubleJumpHeight * -2f * gravity);
                 hasDoubleJump = false;
