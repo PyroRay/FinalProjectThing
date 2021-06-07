@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
-    public Transform playerCamera;
+    public GameObject player;
 
     public float speed = 12f;
     public float sprintSpeed = 16f;
@@ -15,11 +15,13 @@ public class PlayerMovement : MonoBehaviour
     public float doubleJumpHeight = 3f;
     public float wallJumpSpeed = 1f;
     public float wallJumpOffSpeed = 1f;
+    public float wallStickSpeed = 12f;
+    public float wallUpDownSpeed = 0.1f;
     public float airControlMultiplier = 0.5f;
 
     public float wallOffTime = 0f;
     public float wallOffOffset = 11f;
-    public float wallCameraTilt = 20f;
+    public float wallCameraTilt = 30f;
 
     public Transform groundCheck;
     public Transform wallrunCheckLeft;
@@ -63,11 +65,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (velocity.y >= -0.5f)
             {
-                velocity.y -= 0.1f;
+                velocity.y -= wallUpDownSpeed;
             }
             else if (velocity.y <= -0.5f)
             {
-                velocity.y += 0.1f;
+                velocity.y += wallUpDownSpeed;
             }
 
             hasDoubleJump = true;
@@ -148,6 +150,22 @@ public class PlayerMovement : MonoBehaviour
                 hasDoubleJump = false;
                 Debug.Log("Double Jumped");
             }
+        }
+
+        if (isWallrunableLeft && !isGrounded)
+        {
+            player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, -wallCameraTilt);
+            velocity += transform.right * -wallStickSpeed;
+
+        }
+        else if (isWallrunableRight && !isGrounded)
+        {
+            player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, wallCameraTilt);
+            velocity += transform.right * wallStickSpeed;
+        }
+        else if ((!isWallrunableLeft && !isWallrunableRight) || isGrounded)
+        { 
+            player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, 0);
         }
 
 
