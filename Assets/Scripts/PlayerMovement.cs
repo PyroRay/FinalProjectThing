@@ -7,8 +7,9 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController controller;
     public GameObject player;
 
+    public float speedChangeable = 12f;
     public float speed = 12f;
-    public float sprintSpeed = 16f;
+    public float sprintSpeedMultiplier = 2f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
     public float wallJumpHeight = 1.5f;
@@ -16,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public float wallJumpSpeed = 1f;
     public float wallJumpOffSpeed = 1f;
     public float wallStickSpeed = 12f;
+    public float wallRunSpeedMult = 3f;
     public float wallUpDownSpeed = 0.1f;
     public float airControlMultiplier = 0.5f;
 
@@ -40,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     bool isWallrunableFront;
     bool isWallrunableBack;
     bool hasDoubleJump;
+    bool isWallRunning;
 
     // Update is called once per frame
     void Update()
@@ -84,12 +87,11 @@ public class PlayerMovement : MonoBehaviour
         {
             //controller.Move(move * speed * Time.deltaTime);
 
-            if (Input.GetKey("left shift"))
+            if (Input.GetKey("left shift") && !isWallRunning)
             {
-                velocity.x = move.x * sprintSpeed;
+                velocity.x = move.x * speed * sprintSpeedMultiplier;
                 //velocity.y = move.y * speed;
-                velocity.z = move.z * sprintSpeed;
-                Debug.Log("Sprint Pressed");
+                velocity.z = move.z * speed * sprintSpeedMultiplier;
             }
             else
             {
@@ -160,16 +162,21 @@ public class PlayerMovement : MonoBehaviour
         {
             player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, -wallCameraTilt);
             velocity += transform.right * -wallStickSpeed;
-
+            speed = speedChangeable * wallRunSpeedMult;
+            isWallRunning = true;
         }
         else if (isWallrunableRight && !isGrounded)
         {
             player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, wallCameraTilt);
             velocity += transform.right * wallStickSpeed;
+            speed = speedChangeable * wallRunSpeedMult;
+            isWallRunning = true;
         }
         else if ((!isWallrunableLeft && !isWallrunableRight) || isGrounded)
         { 
             player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, 0);
+            speed = speedChangeable;
+            isWallRunning = false;
         }
 
 
