@@ -25,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     public float wallOffOffset = 11f;
     public float wallCameraTilt = 30f;
 
+    public float wallOffWASDTime = 0f;
+    public float wallOffWASDOffset = 0.5f;
+
     public Transform groundCheck;
     public Transform wallrunCheckLeft;
     public Transform wallrunCheckRight;
