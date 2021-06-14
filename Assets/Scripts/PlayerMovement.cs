@@ -86,11 +86,12 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
+
         if (isGrounded || isWallrunableLeft || isWallrunableRight || isWallrunableFront || isWallrunableBack)
         {
             //controller.Move(move * speed * Time.deltaTime);
 
-            if (Input.GetKey("left shift") && !isWallRunning)
+            if (Input.GetKey("left shift") && Input.GetKey("w") && !isWallRunning)
             {
                 velocity.x = move.x * speed * sprintSpeedMultiplier;
                 //velocity.y = move.y * speed;
@@ -122,36 +123,22 @@ public class PlayerMovement : MonoBehaviour
             else if (isWallrunableLeft)
             {
                 Debug.Log("Jumping off Wallrun LEFT");
-                velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
-                velocity += transform.forward * wallJumpSpeed;
-                velocity += transform.right * wallJumpOffSpeed;
-                wallOffTime = Time.time + wallOffOffset;
-                isWallrunableLeft = false;
+                wallRun("left");
             }
             else if (isWallrunableRight)
             {
                 Debug.Log("Jumping off Wallrun RIGHT");
-                velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
-                velocity += transform.forward * wallJumpSpeed;
-                velocity += transform.right * -wallJumpOffSpeed;
-                wallOffTime = Time.time + wallOffOffset;
-                isWallrunableRight = false;
+                wallRun("right");
             }
             else if (isWallrunableFront)
             {
                 Debug.Log("Jumping off Wallrun FRONT");
-                velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
-                velocity += transform.forward * -wallJumpOffSpeed;
-                wallOffTime = Time.time + wallOffOffset;
-                isWallrunableFront = false;
+                wallRun("forward");
             }
             else if (isWallrunableBack)
             {
                 Debug.Log("Jumping off Wallrun BACK");
-                velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
-                velocity += transform.forward * wallJumpOffSpeed;
-                wallOffTime = Time.time + wallOffOffset;
-                isWallrunableBack = false;
+                wallRun("back");
             }
             else if (hasDoubleJump && !(isGrounded || isWallrunableLeft || isWallrunableRight || isWallrunableFront || isWallrunableBack))
             {
@@ -163,21 +150,21 @@ public class PlayerMovement : MonoBehaviour
 
         if (isWallrunableLeft && !isGrounded)
         {
-            player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, -wallCameraTilt);
+            player.transform.localRotation = Quaternion.Lerp(player.transform.localRotation, Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, -wallCameraTilt), 10f * Time.deltaTime) ;
             velocity += transform.right * -wallStickSpeed;
             speed = speedChangeable * wallRunSpeedMult;
             isWallRunning = true;
         }
         else if (isWallrunableRight && !isGrounded)
         {
-            player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, wallCameraTilt);
+            player.transform.localRotation = Quaternion.Lerp(player.transform.localRotation, Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, wallCameraTilt), 10f * Time.deltaTime);
             velocity += transform.right * wallStickSpeed;
             speed = speedChangeable * wallRunSpeedMult;
             isWallRunning = true;
         }
         else if ((!isWallrunableLeft && !isWallrunableRight) || isGrounded)
         { 
-            player.transform.localRotation = Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, 0);
+            player.transform.localRotation = Quaternion.Lerp(player.transform.localRotation, Quaternion.Euler(player.transform.localRotation.x, player.transform.localRotation.y, 0), 10f * Time.deltaTime);
             speed = speedChangeable;
             isWallRunning = false;
         }
@@ -204,4 +191,42 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(velocity);
         controller.Move(velocity * Time.deltaTime);
     }
+
+    void wallRun(string direction)
+    {
+        Debug.Log("Jumping off");
+        velocity = new Vector3(0, 0, 0) + transform.forward * speedChangeable * wallRunSpeedMult;
+        velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
+
+        if (direction == "forward")
+        {
+            velocity += transform.forward * -wallJumpOffSpeed;
+            wallOffTime = Time.time + wallOffOffset;
+            isWallrunableFront = false;
+        }
+        else if (direction == "back")
+        {
+            velocity += transform.forward * wallJumpOffSpeed;
+            wallOffTime = Time.time + wallOffOffset;
+            isWallrunableBack = false;
+        }
+        else if (direction == "left")
+        {
+            velocity += transform.forward * wallJumpSpeed;
+            velocity += transform.right * wallJumpOffSpeed;
+            wallOffTime = Time.time + wallOffOffset;
+            isWallrunableLeft = false;
+        }
+        else if (direction == "right")
+        {
+            velocity += transform.forward * wallJumpSpeed;
+            velocity += transform.right * -wallJumpOffSpeed;
+            wallOffTime = Time.time + wallOffOffset;
+            isWallrunableRight = false;
+        }
+
+        wallOffTime = Time.time + wallOffOffset;
+        isWallrunableLeft = false;
+    }
+
 }
