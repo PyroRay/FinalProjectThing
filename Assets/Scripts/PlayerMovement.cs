@@ -200,13 +200,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction == "forward")
         {
-            velocity += transform.forward * -wallJumpOffSpeed;
+            velocity = transform.forward * -wallJumpOffSpeed * 2;
+            velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
             wallOffTime = Time.time + wallOffOffset;
             isWallrunableFront = false;
         }
         else if (direction == "back")
         {
-            velocity += transform.forward * wallJumpOffSpeed;
+            velocity = transform.forward * wallJumpOffSpeed * 2;
+            velocity.y = Mathf.Sqrt(wallJumpHeight * -2f * gravity);
             wallOffTime = Time.time + wallOffOffset;
             isWallrunableBack = false;
         }
