@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         completeLevelUI.SetActive(true);
     }
 
-    void Restart()
+    public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     public float wallOffWASDTime = 0f;
     public float wallOffWASDOffset = 0.5f;
 
+    public float wallStickTime = 0f;
+    public float wallStickOffset = 2f;
+
     public Transform groundCheck;
     public Transform wallrunCheckLeft;
     public Transform wallrunCheckRight;
@@ -67,18 +70,31 @@ public class PlayerMovement : MonoBehaviour
             hasDoubleJump = true;
         }
 
+
         if (isWallrunableLeft || isWallrunableRight || isWallrunableFront || isWallrunableBack)
         {
-            if (velocity.y >= -0.5f)
-            {
-                velocity.y -= wallUpDownSpeed;
-            }
-            else if (velocity.y <= -0.5f)
-            {
-                velocity.y += wallUpDownSpeed;
-            }
 
+            if (wallStickTime >= Time.time)
+            {
+                if (velocity.y >= -0.5f)
+                {
+                    velocity.y -= wallUpDownSpeed;
+                }
+                else if (velocity.y <= -0.5f)
+                {
+                    velocity.y += wallUpDownSpeed;
+                }
+            }
+            else if (wallStickTime <= Time.time - 2f)
+            {
+                wallStickTime = Time.time + wallStickOffset;
+            }
+                
             hasDoubleJump = true;
+        }
+        else
+        {
+            wallStickTime = 0;  
         }
 
         float x = Input.GetAxis("Horizontal");
@@ -171,24 +187,6 @@ public class PlayerMovement : MonoBehaviour
 
 
         velocity.y += gravity * Time.deltaTime;
-        //if (velocity.x >= 0)
-        //{
-        //    velocity.x -= 0.1f;
-        //}
-        //if (velocity.x <= 0)
-        //{
-        //    velocity.x += 0.1f;
-        //}
-        //if (velocity.z >= 0)
-        //{
-        //    velocity.z -= 0.1f;
-        //}
-        //if (velocity.z <= 0)
-        //{
-        //    velocity.z += 0.1f;
-        //}
-
-        //Debug.Log(velocity);
         controller.Move(velocity * Time.deltaTime);
     }
 
