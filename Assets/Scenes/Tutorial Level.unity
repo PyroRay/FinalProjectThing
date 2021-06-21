@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: a6ecbc1c20cacbc4e900d3e9a42a69de, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -640,7 +640,7 @@ MonoBehaviour:
   speedChangeable: 8
   speed: 8
   sprintSpeedMultiplier: 2
-  gravity: -30
+  gravity: -40
   jumpHeight: 3
   wallJumpHeight: 1.5
   doubleJumpHeight: 3
@@ -649,7 +649,7 @@ MonoBehaviour:
   wallStickSpeed: 10
   wallRunSpeedMult: 3
   wallUpDownSpeed: 0.5
-  airControlMultiplier: 0.005
+  airControlMultiplier: 0.003
   wallOffTime: 1
   wallOffOffset: 0.5
   wallCameraTilt: 20
