@@ -71,31 +71,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if (isWallrunableLeft || isWallrunableRight || isWallrunableFront || isWallrunableBack)
-        {
-
-            if (wallStickTime >= Time.time)
-            {
-                if (velocity.y >= -0.5f)
-                {
-                    velocity.y -= wallUpDownSpeed;
-                }
-                else if (velocity.y <= -0.5f)
-                {
-                    velocity.y += wallUpDownSpeed;
-                }
-            }
-            else if (wallStickTime <= Time.time - 2f)
-            {
-                wallStickTime = Time.time + wallStickOffset;
-            }
-                
-            hasDoubleJump = true;
-        }
-        else
-        {
-            wallStickTime = 0;  
-        }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -227,6 +202,35 @@ public class PlayerMovement : MonoBehaviour
 
         wallOffTime = Time.time + wallOffOffset;
         isWallrunableLeft = false;
+    }
+
+    private void FixedUpdate()
+    {
+        if (isWallrunableLeft || isWallrunableRight || isWallrunableFront || isWallrunableBack)
+        {
+
+            if (wallStickTime >= Time.time)
+            {
+                if (velocity.y >= -0.5f)
+                {
+                    velocity.y -= wallUpDownSpeed;
+                }
+                else if (velocity.y <= -0.5f)
+                {
+                    velocity.y += wallUpDownSpeed;
+                }
+            }
+            else if (wallStickTime <= Time.time - 2f)
+            {
+                wallStickTime = Time.time + wallStickOffset;
+            }
+
+            hasDoubleJump = true;
+        }
+        else
+        {
+            wallStickTime = 0;
+        }
     }
 
 }
