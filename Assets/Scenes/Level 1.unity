@@ -3914,5 +3914,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: FP Player
       objectReference: {fileID: 0}
+    - target: {fileID: 9168469639900481451, guid: 6c49fcd7e047ea4419727bcfa9a28ff5, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bd66e0a25ecb1d44f805f196cea39791, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c49fcd7e047ea4419727bcfa9a28ff5, type: 3}
