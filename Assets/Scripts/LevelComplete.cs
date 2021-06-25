@@ -7,4 +7,8 @@ public class LevelComplete : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+    public void LoadIntroScene()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

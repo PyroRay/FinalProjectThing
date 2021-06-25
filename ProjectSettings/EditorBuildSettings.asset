@@ -21,6 +21,24 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 3.unity
     guid: 04fe5c9a5dbd2db4eae8f75b034777e1
   - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: 313744984ebd2bf46b41c0271daa494a
+  - enabled: 1
+    path: Assets/Scenes/Level 5.unity
+    guid: 8fe7de37dd0aaab48935c186102d687d
+  - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: b0b493d999cccf5469e86cad4c0935f9
+  - enabled: 1
+    path: Assets/Scenes/AltLevel 1.unity
+    guid: b63d3f530c0475641b6be2c5c15959e8
+  - enabled: 1
+    path: Assets/Scenes/AltLevel 2.unity
+    guid: be0a3269f2e533a47a4883efa04a260b
+  - enabled: 1
+    path: Assets/Scenes/AltLevel 3.unity
+    guid: 6815644711845a64e846fb7beaeb3107
+  - enabled: 0
     path: Assets/Scenes/TestScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

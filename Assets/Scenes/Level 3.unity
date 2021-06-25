@@ -2369,7 +2369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac44a9362db9fce49aaed653eabe482f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelnum: 5
+  levelnum: 8
   gameManager: {fileID: 577450143}
 --- !u!1 &1412027210
 GameObject:
@@ -3297,5 +3297,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: FP Player
       objectReference: {fileID: 0}
+    - target: {fileID: 9168469639900481451, guid: 6c49fcd7e047ea4419727bcfa9a28ff5, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 75f6bb14c606ac940920baad2460c098, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c49fcd7e047ea4419727bcfa9a28ff5, type: 3}

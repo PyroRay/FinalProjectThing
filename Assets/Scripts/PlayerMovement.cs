@@ -96,13 +96,13 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-        else
-        {
-            velocity.x += move.x * speed * airControlMultiplier;
-            //velocity.y += move.y * speed * airControlMultiplier;
-            velocity.z += move.z * speed * airControlMultiplier;
-            //Debug.Log("NotOnGround");
-        }
+        //else
+        //{
+        //    velocity.x += move.x * speed * airControlMultiplier;
+        //    //velocity.y += move.y * speed * airControlMultiplier;
+        //    velocity.z += move.z * speed * airControlMultiplier;
+        //    //Debug.Log("NotOnGround");
+        //}
 
         if(Input.GetButtonDown("Jump") && (isGrounded || (isWallrunableLeft || isWallrunableRight || isWallrunableFront || isWallrunableBack) || hasDoubleJump))
         {
@@ -161,7 +161,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
 
@@ -231,6 +230,8 @@ public class PlayerMovement : MonoBehaviour
         {
             wallStickTime = 0;
         }
+
+        velocity.y += gravity * Time.deltaTime;
     }
 
 }
